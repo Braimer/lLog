@@ -1,0 +1,15 @@
+{%extends "base.html"%} 
+{%block page_header%}
+<h1>Register</h1>
+{%endblock page_header%}
+{%block content%}
+
+<form action="{%url 'users:register'%}" method="post">
+    {%csrf_token%}
+    {{form.as_p}}
+
+    <button name="submit">Register</button>
+    <input type="hidden" name="next" value="{%url 'logs:index'%}">
+
+</form>
+{%endblock content%}

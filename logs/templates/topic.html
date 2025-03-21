@@ -1,0 +1,50 @@
+{%extends 'base.html'%}
+
+{%block page_header%}
+<h3>{{Topic}}</h3>
+{%endblock page_header%}
+
+{%block content%}
+
+<p>
+ <a href="{%url 'logs:new_entry' topic.id%}">Add new entry</a>
+</p>
+
+
+   {%for entry in entries%}
+
+   <div class="card mb-3">
+        <h4 class="card-header">
+            {{entry.date_added|date:"M d, Y"}} {{entry.date_added|time:"H:i"}}
+            <small><a href="{%url 'logs:edit_entry' entry.id%}">Edit entry</small>
+        </h4>
+        <div class="card-body">
+            <p>
+            {{entry.text|linebreaks}}
+            </p>
+        </div>
+    </div>
+<!----
+        <li>
+            <p>{{entry.date_added|date:"M d, Y"}} {{entry.date_added|time:"H:i"}}</p>
+            <p>{{entry.text|linebreaks}}</p>
+            <p>
+                <a href="{%url 'logs:edit_entry' entry.id%}">Edit entry</a>
+            </p>
+        </li>--->
+    {%empty%}
+    <p>There are no entries for this topic yet</p>
+    
+
+    {%endfor%}
+</ul>
+<!---delete topic form and button-->
+<form action="{% url 'logs:delete_topic' topic.id %}" method="post" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this topic?')">
+        Delete Topic
+    </button>
+</form>
+
+
+{%endblock content%}
